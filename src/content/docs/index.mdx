@@ -1,0 +1,49 @@
+---
+title: Objective Resilience Case Studies and Benchmark Problems
+description: A shared library from the ASCE EMI Objective Resilience Committee.
+tableOfContents: false
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import EntryCards from '../../components/EntryCards.astro';
+
+Welcome to the **Objective Resilience Committee (ORC)** library of case studies and benchmark problems, a community resource of the ASCE Engineering Mechanics Institute (EMI).
+
+The goal is to contribute well-documented resilience problems that are easy to reproduce, reuse, and compare.
+
+<CardGrid>
+  <Card title="Case Study" icon="open-book">
+    An example application to a real-world system, in which objective resilience processes (frameworks and metrics) are applied and the results reported.
+  </Card>
+  <Card title="Benchmark Problem" icon="rocket">
+    A well-defined, shareable problem (also called a testbed) used to benchmark methods, test decisions, and explore future impacts and "what-if" scenarios.
+  </Card>
+</CardGrid>
+
+<div class="eyebrow">Explore</div>
+
+## Structure of this website
+
+Entries are organized in three categories, shown in the left panel. Expand a category, then a subcategory, to see its entries.
+
+| Category | Covers |
+| --- | --- |
+| **1 – Independent systems** | Buildings, bridges, industrial and critical facilities, as a single asset or a portfolio |
+| **2 – Networked and interdependent systems** | Utility systems, transportation networks, cross-sector lifelines |
+| **3 – Socio-technical resilience** | Human-centered, community-scale, and networked socio-technical systems |
+
+You can also [browse all entries in one table](/browse/) or use the search box at the top.
+
+Every entry follows the same structure: general description (including the system boundary), methods, input data, assumptions, time horizon, results, limitations, and practical applications. A summary box at the top shows its category, hazards, and data links, and entries that ask to be cited list their references at the bottom.
+
+<div class="eyebrow rev">Contribute</div>
+
+## Sharing a Case Study or Benchmark Problem
+
+Right now, we only accept contributions by invitation. If you are interested in contributing, send an email to name_example@uofexample.edu describing your case study or benchmark problem and your interest in contributing. All contributions will be reviewed by an ORC member, who may ask for edits before it is published. See [How to Contribute](/contribute/).
+
+<div class="eyebrow">New</div>
+
+## Latest Case Studies and Benchmark Problems
+
+<EntryCards limit={4} />

@@ -1,0 +1,36 @@
+---
+// Newest entries as figure cards: figure on top, title and authors below, category badge on the right.
+import { getCollection } from 'astro:content';
+import { CATEGORY_STYLE } from '../categories.mjs';
+
+const { limit = 4 } = Astro.props;
+const all = await getCollection('docs');
+const entries = all
+  .filter((e) => e.id.startsWith('entries/') && e.data.category && (import.meta.env.DEV || !e.data.draft))
+  .sort((a, b) => (b.data.date_added?.getTime() ?? 0) - (a.data.date_added?.getTime() ?? 0))
+  .slice(0, limit);
+---
+
+{
+  entries.length === 0 ? (
+    <p>The first entries are coming soon.</p>
+  ) : (
+    <div class="entry-cards">
+      {entries.map((e) => {
+        const style = CATEGORY_STYLE[e.data.category as keyof typeof CATEGORY_STYLE];
+        return (
+          <a class="entry-card" href={`/${e.id.replace(/\.mdx?$/, '')}/`}>
+            <img src={e.data.figure} alt={`Figure for ${e.data.title}`} loading="lazy" />
+            <div class="entry-card-body">
+              <h3>{e.data.title}</h3>
+              <div class="entry-card-foot">
+                <span class="entry-card-authors">{(e.data.authors ?? []).map((a) => a.name).join(', ')}</span>
+                <span class="entry-card-cat" style={`background:${style?.color}`}>{style?.short}</span>
+              </div>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  )
+}

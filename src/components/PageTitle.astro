@@ -1,0 +1,56 @@
+---
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+const { entry } = Astro.locals.starlightRoute;
+const d = entry.data;
+const isHome = Astro.url.pathname === '/';
+const isEntry = Boolean(d.category);
+const authors = (d.authors ?? []).map((a) => `${a.name} (${a.affiliation})`).join('; ');
+const tags = (list?: string[]) => list ?? [];
+---
+
+{
+  isHome ? (
+    <div class="home-banner">
+      <div class="eyebrow eyebrow-light">ASCE · Engineering Mechanics Institute</div>
+      <Default><slot /></Default>
+      {d.description && <p class="home-banner-text">{d.description}</p>}
+      <div class="home-banner-actions">
+        <a class="btn btn-primary" href="/browse/">Browse all entries</a>
+        <a class="btn btn-ghost" href="/contribute/">How to contribute</a>
+      </div>
+    </div>
+  ) : isEntry ? (
+    <Default><slot /></Default>
+  ) : (
+    <div class="home-banner is-compact">
+      <div class="eyebrow eyebrow-light">{d.eyebrow ?? 'Objective Resilience Committee'}</div>
+      <Default><slot /></Default>
+      {d.description && <p class="home-banner-text">{d.description}</p>}
+    </div>
+  )
+}
+
+{
+  isEntry && (
+    <div class="entry-meta">
+      <dl>
+        <dt>Authors</dt><dd>{authors}</dd>
+        <dt>Category</dt><dd>{d.category}</dd>
+        <dt>Subcategory</dt>
+        <dd>{d.subcategory}{d.asset_scale && d.asset_scale !== 'N/A' ? ` — ${d.asset_scale}` : ''}</dd>
+        <dt>Type</dt><dd>{tags(d.submission_type).map((t) => <span class="tag">{t}</span>)}</dd>
+        <dt>Purpose</dt><dd>{tags(d.application_purpose).map((t) => <span class="tag">{t}</span>)}</dd>
+        <dt>Hazards</dt><dd>{tags(d.hazards).map((t) => <span class="tag">{t}</span>)}</dd>
+        <dt>Time horizon</dt><dd>{d.time_horizon}</dd>
+        <dt>Data</dt>
+        <dd>
+          <ul style="margin:0;padding-left:1.1rem">
+            {(d.dataset_links ?? []).filter((l) => l.trim()).map((l) => (
+              <li>{/^https?:\/\//.test(l.trim()) ? <a href={l.trim()}>{l.trim()}</a> : l}</li>
+            ))}
+          </ul>
+        </dd>
+      </dl>
+    </div>
+  )
+}

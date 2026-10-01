@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+const all = await getCollection('docs');
+const entries = all
+  .filter((e) => e.id.startsWith('entries/') && e.data.category && (import.meta.env.DEV || !e.data.draft))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+---
+
+{
+  entries.length === 0 ? (
+    <p>No entries yet. Be the first — see <a href="/contribute/">How to Contribute</a>.</p>
+  ) : (
+    <table class="browse-table">
+      <thead>
+        <tr><th>Title</th><th>Category</th><th>Type</th><th>Hazards</th></tr>
+      </thead>
+      <tbody>
+        {entries.map((e) => (
+          <tr>
+            <td><a href={`/${e.id.replace(/\.mdx?$/, '')}/`}>{e.data.title}</a></td>
+            <td>{e.data.category} / {e.data.subcategory}</td>
+            <td>{(e.data.submission_type ?? []).join(', ')}</td>
+            <td>{(e.data.hazards ?? []).join(', ')}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
